@@ -1,0 +1,55 @@
+{
+  "name": "agent-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A simple desktop utility to manage Chrome Native Messaging hosts.",
+  "author": "AgentBridge Contributors",
+  "main": "build/electron/main.js",
+  "homepage": "./",
+  "dependencies": {
+    "electron-store": "^11.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "winreg": "^1.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/winreg": "^1.2.33",
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "electron": "^31.0.2",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1",
+    "wait-on": "^7.2.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development tsc -p electron && NODE_ENV=development electron .\"",
+    "electron:build": "npm run build && tsc -p electron && electron-builder"
+  },
+  "build": {
+    "appId": "com.agentbridge.app",
+    "productName": "AgentBridge",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "extraResources": [
+      {
+        "from": "build/electron/agent-bridge-host.js",
+        "to": "agent-bridge-host.js"
+      }
+    ],
+    "extraMetadata": {
+      "main": "build/electron/main.js"
+    }
+  }
+}
